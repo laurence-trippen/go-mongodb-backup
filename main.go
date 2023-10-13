@@ -14,10 +14,17 @@ import (
 func main() {
 
 	c := config.Config{}
-	err := c.Load("single_config.yaml")
+	err := c.Load("data/single_config.yaml")
 	if err != nil {
 		log.Fatal("Couldn't load config!")
 	}
+
+	err = c.Validate()
+	if err != nil {
+		log.Fatal("Config isn't valid!")
+	}
+
+	fmt.Println(c)
 
 	// Check for mongodump bin
 	cmd := exec.Command("mongodump", "--version")
@@ -35,12 +42,12 @@ func main() {
 
 	// archive.CreateArchiveFolder()
 
-	cron := gocron.NewScheduler(time.UTC)
+	scheduler := gocron.NewScheduler(time.UTC)
 
-	cron.Every(5).Seconds().Do(func() {
-		fmt.Println("Hello")
+	scheduler.Cron(c.Backup.Cron).Do(func() {
+		fmt.Println("Do Backup")
 	})
 
-	cron.StartBlocking()
+	scheduler.StartBlocking()
 
 }

@@ -1,6 +1,6 @@
 ---
   backup:
-    cron: 1 * * *
+    cron: "*/1 * * * *"
     googledrive:
       apikey: 13123sdawdxc2123123
   mongodb:

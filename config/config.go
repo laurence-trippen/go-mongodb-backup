@@ -1,8 +1,10 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
+	"github.com/go-playground/validator/v10"
 	"gopkg.in/yaml.v3"
 )
 
@@ -11,7 +13,7 @@ type GoogleDriveConfig struct {
 }
 
 type BackupConfig struct {
-	Cron        string
+	Cron        string `validate:"required,cron"`
 	GoogleDrive GoogleDriveConfig
 }
 
@@ -41,4 +43,16 @@ func (c *Config) Load(path string) error {
 	}
 
 	return nil
+}
+
+func (c *Config) Validate() error {
+	validate := validator.New(validator.WithRequiredStructEnabled())
+
+	err := validate.Struct(c)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return err
 }
