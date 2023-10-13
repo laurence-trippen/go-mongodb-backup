@@ -1,0 +1,28 @@
+---
+  stores:
+    - name: Laurence Google Drive
+      type: google-drive
+      api-key: 123147283sadasdcyxf231
+    - name: Laurence One Drive
+      type: one-drive # google-drive, onedrive, dropbox, s3, http, ftp, smb, nfs
+      api-key: 123147283sadasdcyxf231
+
+
+  jobs:
+    - name: Biebrich bewegt Backup
+      cron: 1 * * *
+      stores:
+        - to: Laurence Google Drive
+        - to: Laurence One Drive
+
+
+---
+  config:
+    backup:
+      cron: 1 * * *
+      google-drive:
+        api-key: 13123sdawdxc2123123
+    mongodb:
+      host: null
+      port: 3306
+      database: biebriech_bewegt

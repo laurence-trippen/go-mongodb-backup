@@ -1,0 +1,9 @@
+---
+  backup:
+    cron: 1 * * *
+    googledrive:
+      apikey: 13123sdawdxc2123123
+  mongodb:
+    host: null
+    port: 3306
+    database: biebriech_bewegt
