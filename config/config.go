@@ -14,6 +14,7 @@ type GoogleDriveConfig struct {
 
 type BackupConfig struct {
 	Cron        string `validate:"required,cron"`
+	Zip         bool
 	GoogleDrive GoogleDriveConfig
 }
 
