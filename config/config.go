@@ -8,14 +8,10 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type GoogleDriveConfig struct {
-	ApiKey string
-}
-
 type BackupConfig struct {
 	Cron        string `validate:"required,cron"`
 	Zip         bool
-	GoogleDrive GoogleDriveConfig
+	GoogleDrive bool
 }
 
 type MongoDbConfig struct {

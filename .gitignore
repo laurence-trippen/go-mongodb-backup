@@ -19,3 +19,6 @@
 
 # Go workspace file
 go.work
+
+# Folder for assets which should not be shared in public
+private/

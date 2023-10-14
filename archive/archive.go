@@ -25,12 +25,14 @@ func CreateArchiveFolder() (string, error) {
 	return archiveName, nil
 }
 
-func ZipArchiveFolder(folderPath string) error {
+func ZipArchiveFolder(folderPath string) (string, error) {
 
-	archive, err := os.Create(folderPath + ".zip")
+	zipPath := folderPath + ".zip"
+
+	archive, err := os.Create(zipPath)
 
 	if err != nil {
-		return err
+		return zipPath, err
 	}
 
 	defer archive.Close()
@@ -72,5 +74,5 @@ func ZipArchiveFolder(folderPath string) error {
 		log.Println(err)
 	}
 
-	return nil
+	return zipPath, nil
 }

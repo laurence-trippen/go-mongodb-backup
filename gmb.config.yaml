@@ -1,0 +1,9 @@
+---
+  backup:
+    cron: "*/1 * * * *"
+    zip: true
+    googledrive: true
+  mongodb:
+    host: null
+    port: null
+    database: biebrich_bewegt_dev

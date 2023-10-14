@@ -8,13 +8,14 @@ import (
 	"github.com/go-co-op/gocron"
 	"github.com/laurence-trippen/go-mongodb-backup/archive"
 	"github.com/laurence-trippen/go-mongodb-backup/config"
+	"github.com/laurence-trippen/go-mongodb-backup/googledrive"
 	"github.com/laurence-trippen/go-mongodb-backup/mongodump"
 )
 
 func main() {
 
 	config := config.Config{}
-	err := config.Load("data/single_config.yaml")
+	err := config.Load("gmb.config.yaml")
 	if err != nil {
 		log.Fatal("Couldn't load config!")
 	}
@@ -35,19 +36,19 @@ func main() {
 
 	scheduler := gocron.NewScheduler(time.UTC)
 	scheduler.Cron(config.Backup.Cron).Do(func() {
+		googledrive.Connect()
+
 		folderName := archive.FolderNamePrefix + time.Now().Format(archive.FolderDateFormat)
 
 		fmt.Println("start backing up ", config.Mongodb.Database, " to ", folderName+".zip")
 
 		mongodump.Dump(config.Mongodb.Database, folderName)
 
-		if config.Backup.Zip {
-
-			err := archive.ZipArchiveFolder(folderName)
-			if err != nil {
-				fmt.Println(err)
-			}
-
+		zipPath, err := archive.ZipArchiveFolder(folderName)
+		if err != nil {
+			fmt.Println(err)
+		} else {
+			googledrive.UploadFile(zipPath)
 		}
 
 		fmt.Println("backup done!")
